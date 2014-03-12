@@ -44,4 +44,4 @@ This software uses code from the [SimpleGameEngine](http://www.github.com/C0deH4
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
     
-The license for SimpleGameEngine must be included with every copy of the software that uses it, so every game/software that uses JoshoEngine must include it too.
+The license for SimpleGameEngine must be included with every copy of the software that uses it, so every game/software that uses JoshoEngine must include it too. This does **NOT** mean that JoshoEngine can be distributed underneath this license!
