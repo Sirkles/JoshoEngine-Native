@@ -21,6 +21,8 @@ namespace JoshoEngine
 
 		bool intersects(const Rectangle& rectangle) const;
 
+		bool intersects(const Circle& circle) const;
+
 		void draw(bool hollow, Color renderColor) const;
 
 		bool inside(Vector2 point) const;

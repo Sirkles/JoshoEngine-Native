@@ -58,6 +58,12 @@ bool Circle::intersects(const JoshoEngine::Rectangle& rectangle) const
 	return ((distanceSquared > 0) && (distanceSquared < radius * radius));
 }
 
+bool Circle::intersects(const Circle& circle) const
+{
+	float diff = ((this->center.x - circle.center.x) * (this->center.x - circle.center.x)) + ((this->center.y - circle.center.y) * (this->center.y - circle.center.y));
+	return ((this->radius - circle.radius) * (this->radius - circle.radius) <= diff && diff <= (this->radius + circle.radius) * (this->radius + circle.radius));
+}
+
 void Circle::draw(bool hollow, Color renderColor) const
 {
 	if (!hollow)
