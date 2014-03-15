@@ -18,7 +18,11 @@ The code name for the engine is "wow such engine". :)
 * Add basic physics.
 
 ## License
-This software library is proprietary and contains confidential information. You must contact me to arrange licensing details, visit http://www.joshuakennedy.net for details.
+**This software library is proprietary and contains confidential information!**
+
+You must contact me to arrange licensing details.
+
+This software library utilizes the cross-platform and low-level, FMOD Studio Audio API, it requires a separate license from Firelight Technologies. See [http://www.fmod.com/](http://www.fmod.com/) for details.
 
 This software uses code from the [SimpleGameEngine](http://www.github.com/C0deH4cker/SimpleGameEngine) library from [C0deH4cker](http:/www.github.com/C0deH4cker) which is licensed under the MIT License:
 
