@@ -5,6 +5,7 @@
 #include "Window.h"
 #include "Timer.h"
 #include "Debug.h"
+#include <fmod.hpp>
 
 namespace JoshoEngine
 {
@@ -14,6 +15,7 @@ namespace JoshoEngine
 		// Singleton instance.
 		static Game* instance();
 		static Debug* debugInstance();
+		static FMOD::System* fmodSystemInstance();
 
 		// Current Window.
 		Window* window;
@@ -193,6 +195,7 @@ namespace JoshoEngine
 
 		static Game* game;
 		static Debug* debug;
+		static FMOD::System* fmod;
 
 		int status;
 		bool shutdown;

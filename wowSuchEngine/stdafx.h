@@ -31,6 +31,9 @@
 #include <chrono>
 #include <random>
 
+// FMOD Audio Runtime
+#include <fmod.hpp>
+
 // GLFW and GL
 #include <GLFW/glfw3.h>
 #include <gl/GL.h>

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#ifdef WIN32
+#if defined _WIN32 || defined _WIN64
 #define GLFW_EXPOSE_NATIVE_WIN32
 #define GLFW_EXPOSE_NATIVE_WGL
 #endif
@@ -30,9 +30,10 @@ namespace JoshoEngine
 	void _keyCallback(GLFWwindow* w, int key, int scancode, int action, int mods);
 	void _charCallback(GLFWwindow* w, unsigned c);
 
-	// Singleton Instance of the Game and Debug assistant
+	// Singleton Instance of the Game and Debug assistants, and the FMOD System
 	Game* Game::game;
 	Debug* Game::debug;
+	FMOD::System* Game::fmod;
 }
 
 Game::Game()
@@ -43,6 +44,23 @@ Game::Game()
 
 	Game::game = this;
 	Game::debug = new Debug();
+
+	FMOD_RESULT initResult = FMOD::System_Create(&Game::fmod);
+
+	if (initResult != FMOD_OK)
+	{
+		std::cerr << "Error: Couldn't start up FMOD!" << std::endl;
+		exit(-1);
+	}
+
+	unsigned int fmodVersion;
+	fmod->getVersion(&fmodVersion);
+
+	if (fmodVersion < FMOD_VERSION)
+	{
+		std::cerr << "Error: Detected an old version of FMOD, please use the latest FMOD library!" << std::endl;
+		exit(-2);
+	}
 
 	shutdown = false;
 
@@ -64,12 +82,17 @@ Game::~Game()
 
 Game* Game::instance()
 {
-	return game;
+	return Game::game;
 }
 
 Debug* Game::debugInstance()
 {
-	return debug;
+	return Game::debug;
+}
+
+FMOD::System* Game::fmodSystemInstance()
+{
+	return Game::fmod;
 }
 
 void Game::initGL()
