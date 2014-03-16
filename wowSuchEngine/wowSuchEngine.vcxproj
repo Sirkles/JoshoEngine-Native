@@ -96,6 +96,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="JoshoEngine.h" />
+    <ClInclude Include="MathHelp.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="resource.h" />
@@ -126,6 +127,7 @@
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="MathHelp.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="SOIL\image_DXT.cpp" />

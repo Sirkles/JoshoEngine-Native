@@ -173,6 +173,9 @@ namespace JoshoEngine
 
 		// Makes it so that this Color is applied to the drawn verticies.
 		void apply() const;
+
+		// Linearlly interpolate the color.
+		Color lerp(Color color1, Color color2, float amount);
 	};
 }
 

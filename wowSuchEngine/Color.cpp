@@ -2,6 +2,7 @@
 
 #include "JoshoEngine.h"
 #include "Helper.h"
+#include "MathHelp.h"
 
 #include "Color.h"
 
@@ -205,4 +206,9 @@ bool Color::operator!=(const Color& color)
 void Color::apply() const
 {
 	glColor4f(r, g, b, a);
+}
+
+Color Color::lerp(Color color1, Color color2, float amount)
+{
+	return Color(MathHelp::lerp(color1.r, color2.r, amount), MathHelp::lerp(color1.g, color2.g, amount), MathHelp::lerp(color1.b, color2.b, amount), MathHelp::lerp(color1.a, color2.a, amount));
 }

@@ -45,14 +45,17 @@ Game::Game()
 	Game::game = this;
 	Game::debug = new Debug();
 
+	// Init FMOD.
 	FMOD_RESULT initResult = FMOD::System_Create(&Game::fmod);
 
+	// Make sure it initialized ok.
 	if (initResult != FMOD_OK)
 	{
 		std::cerr << "Error: Couldn't start up FMOD!" << std::endl;
 		exit(-1);
 	}
 
+	// Check version, make sure DLL is what we compiled with.
 	unsigned int fmodVersion;
 	fmod->getVersion(&fmodVersion);
 
@@ -64,6 +67,7 @@ Game::Game()
 
 	shutdown = false;
 
+	// Initialize random number generator.
 	srand(time(NULL));
 
 	rand();
