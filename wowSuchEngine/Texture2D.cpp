@@ -17,6 +17,13 @@ GLuint Texture2D::load(const char* file, int* width, int* height, GLenum filter)
 {
 	GLuint texture = SOIL_load_OGL_texture(file, SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
 
+	if (texture == NULL)
+	{
+		// didn't load.
+		std::cerr << "Couldn't load the image from " << file << std::endl;
+		exit(-3);
+	}
+
 	glBindTexture(GL_TEXTURE_2D, active = texture);
 	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, width);
 	glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, height);

@@ -175,7 +175,7 @@ namespace JoshoEngine
 		void apply() const;
 
 		// Linearlly interpolate the color.
-		Color lerp(Color color1, Color color2, float amount);
+		static Color lerp(Color color1, Color color2, float amount);
 	};
 }
 

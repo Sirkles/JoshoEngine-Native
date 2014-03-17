@@ -12,7 +12,7 @@ namespace JoshoEngine
 	class JOSHO_API Window
 	{
 	public:
-		Window(const char* title = "wow such title very creative wow", int x = 50, int y = 50, unsigned width = 640, unsigned height = 480, bool resizeable = false);
+		Window(const char* title = "wow such title very creative wow", int x = 50, int y = 50, unsigned int width = 640, unsigned int height = 480, bool resizeable = false);
 
 		~Window();
 

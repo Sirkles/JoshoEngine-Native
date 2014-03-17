@@ -46,14 +46,16 @@ Game::Game()
 	Game::debug = new Debug();
 
 	// Init FMOD.
-	FMOD_RESULT initResult = FMOD::System_Create(&Game::fmod);
+	FMOD_RESULT result = FMOD::System_Create(&Game::fmod);
 
-	// Make sure it initialized ok.
-	if (initResult != FMOD_OK)
+	// Make sure it was created ok.
+	if (result != FMOD_OK)
 	{
 		std::cerr << "Error: Couldn't start up FMOD!" << std::endl;
 		exit(-1);
 	}
+
+	result = Game::fmod->init(32, FMOD_INIT_NORMAL, NULL);
 
 	// Check version, make sure DLL is what we compiled with.
 	unsigned int fmodVersion;
@@ -78,6 +80,10 @@ Game::Game()
 Game::~Game()
 {
 	delete window;
+
+	Game::fmod->release();
+
+	delete Game::debug;
 
 	glfwTerminate();
 
@@ -117,6 +123,8 @@ void Game::mainLoop()
 {
 	while (!shutdown && !glfwWindowShouldClose(glWindow))
 	{
+		this->fmod->update();
+
 		update(updateTimer.tick());
 		display();
 
