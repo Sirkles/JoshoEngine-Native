@@ -34,6 +34,7 @@ namespace JoshoEngine
 	Game* Game::game;
 	Debug* Game::debug;
 	FMOD::System* Game::fmod;
+	FMOD::Channel* Game::channel;
 }
 
 Game::Game()
@@ -55,7 +56,14 @@ Game::Game()
 		exit(-1);
 	}
 
-	result = Game::fmod->init(32, FMOD_INIT_NORMAL, NULL);
+	// Initialize FMOD with 512 channels of audio, and normally.
+	result = Game::fmod->init(512, FMOD_INIT_NORMAL, NULL);
+
+	if (result != FMOD_OK)
+	{
+		std::cerr << "Error: Couldn't initialize FMOD!" << std::endl;
+		exit(-1);
+	}
 
 	// Check version, make sure DLL is what we compiled with.
 	unsigned int fmodVersion;
@@ -66,6 +74,9 @@ Game::Game()
 		std::cerr << "Error: Detected an old version of FMOD, please use the latest FMOD library!" << std::endl;
 		exit(-2);
 	}
+
+	// Set the audio channel pointer to null.
+	this->channel = NULL;
 
 	shutdown = false;
 
@@ -105,6 +116,11 @@ FMOD::System* Game::fmodSystemInstance()
 	return Game::fmod;
 }
 
+FMOD::Channel* Game::fmodChannelInstance()
+{
+	return Game::channel;
+}
+
 void Game::initGL()
 {
 	glDepthMask(false);
@@ -119,11 +135,18 @@ void Game::display()
 	window->render();
 }
 
+void Game::updateAudio()
+{
+	this->fmod->update();
+
+
+}
+
 void Game::mainLoop()
 {
 	while (!shutdown && !glfwWindowShouldClose(glWindow))
 	{
-		this->fmod->update();
+		this->updateAudio();
 
 		update(updateTimer.tick());
 		display();

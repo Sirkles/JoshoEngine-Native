@@ -9,3 +9,8 @@ SoundEffect::SoundEffect(const char* file)
 {
 	Game::fmodSystemInstance()->createSound(file, FMOD_DEFAULT, NULL, &this->soundInstance);
 }
+
+void SoundEffect::unload()
+{
+	this->soundInstance->release();
+}

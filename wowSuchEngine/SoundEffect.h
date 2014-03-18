@@ -10,6 +10,10 @@ namespace JoshoEngine
 	{
 	public:
 		SoundEffect(const char* file);
+
+		void unload();
+
+		static void play();
 	private:
 		FMOD::Sound* soundInstance;
 	};
