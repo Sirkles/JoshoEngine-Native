@@ -47,6 +47,8 @@ namespace JoshoEngine
 		bool isDebuggerAttached();
 		void sleepCurrentThread(unsigned int milliseconds);
 		const char* getGLVersion();
+		double calculateFPS(std::string windowTitle, double timeInterval = 1.0);
+		double calculateFPS(double timeInterval = 1.0);
 	private:
 		int foreground;
 		int background;

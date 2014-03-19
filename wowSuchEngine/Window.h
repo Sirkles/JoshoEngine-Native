@@ -56,6 +56,8 @@ namespace JoshoEngine
 
 		void disableFullscreen();
 
+		GLFWwindow* currentWindowContext();
+
 	private:
 		const char* title;
 		GLFWwindow* glWindow;
@@ -75,7 +77,6 @@ namespace JoshoEngine
 		void updateGL();
 		void didMove(int, int);
 		void didResize(int, int);
-		GLFWwindow* currentWindowContext();
 
 		friend class Game;
 		friend void _windowPositionCallback(GLFWwindow* w, int x, int y);

@@ -30,6 +30,7 @@
 #include <stdexcept>
 #include <chrono>
 #include <random>
+#include <sstream>
 
 // FMOD Audio Runtime
 #include <fmod.hpp>

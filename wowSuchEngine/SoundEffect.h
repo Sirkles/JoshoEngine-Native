@@ -13,7 +13,11 @@ namespace JoshoEngine
 
 		void unload();
 
-		static void play();
+		void setAttributes();
+
+		void play();
+
+		static void play(SoundEffect* sound);
 	private:
 		FMOD::Sound* soundInstance;
 	};
