@@ -13,23 +13,27 @@ SoundEffect::SoundEffect(const char* file)
 void SoundEffect::unload()
 {
 	this->soundInstance->release();
+
+	delete this->channel;
+	delete this->soundInstance;
 }
 
-void SoundEffect::setAttributes()
+void SoundEffect::setAttributes(SoundAttributes* attributes)
 {
-
+	this->attributes = *attributes;
 }
 
 void SoundEffect::play()
 {
-	// Can't get address of function that retuns pointer, wtf?!
-	FMOD::Channel* gameChannel = Game::fmodChannelInstance();
-
-	// Tell the global sound system to play the sound using the global audio channel.
-	Game::fmodSystemInstance()->playSound(this->soundInstance, NULL, false, &gameChannel);
+	// Tell the global sound system to play the sound using the instance's audio channel.
+	Game::fmodSystemInstance()->playSound(this->soundInstance, NULL, false, &this->channel);
 }
 
-void SoundEffect::play(SoundEffect* sound)
+bool SoundEffect::isPlaying()
 {
-	sound->play();
+	bool result = false;
+
+	this->channel->isPlaying(&result);
+
+	return result;
 }

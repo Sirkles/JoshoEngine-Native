@@ -16,7 +16,6 @@ namespace JoshoEngine
 		static Game* instance();
 		static Debug* debugInstance();
 		static FMOD::System* fmodSystemInstance();
-		static FMOD::Channel* fmodChannelInstance();
 
 		// Current Window.
 		Window* window;
@@ -197,13 +196,13 @@ namespace JoshoEngine
 		static Game* game;
 		static Debug* debug;
 		static FMOD::System* fmod;
-		static FMOD::Channel* channel;
 
 		int status;
 		bool shutdown;
 
 		void registerCallbacks();
 		void initGL();
+		void initAudio();
 		void display();
 		void mainLoop();
 		void updateAudio();

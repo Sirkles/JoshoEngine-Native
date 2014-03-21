@@ -9,17 +9,26 @@ namespace JoshoEngine
 	class JOSHO_API SoundEffect
 	{
 	public:
+		typedef struct
+		{
+			bool paused;
+			bool loop;
+			int loopTimes;
+		} SoundAttributes;
+
 		SoundEffect(const char* file);
 
 		void unload();
 
-		void setAttributes();
+		void setAttributes(SoundAttributes* attributes);
 
 		void play();
 
-		static void play(SoundEffect* sound);
+		bool isPlaying();
 	private:
 		FMOD::Sound* soundInstance;
+		FMOD::Channel* channel;
+		SoundAttributes attributes;
 	};
 }
 

@@ -34,7 +34,6 @@ namespace JoshoEngine
 	Game* Game::game;
 	Debug* Game::debug;
 	FMOD::System* Game::fmod;
-	FMOD::Channel* Game::channel;
 }
 
 Game::Game()
@@ -46,6 +45,20 @@ Game::Game()
 	Game::game = this;
 	Game::debug = new Debug();
 
+	this->initAudio();
+
+	shutdown = false;
+
+	// Initialize random number generator.
+	srand(time(NULL));
+
+	rand();
+	rand();
+	rand();
+}
+
+void Game::initAudio()
+{
 	// Init FMOD.
 	FMOD_RESULT result = FMOD::System_Create(&Game::fmod);
 
@@ -67,7 +80,7 @@ Game::Game()
 
 	// Check version, make sure DLL is what we compiled with.
 	unsigned int fmodVersion;
-	fmod->getVersion(&fmodVersion);
+	this->fmod->getVersion(&fmodVersion);
 
 	if (fmodVersion < FMOD_VERSION)
 	{
@@ -75,17 +88,16 @@ Game::Game()
 		exit(-2);
 	}
 
-	// Set the audio channel pointer to null.
-	this->channel = NULL;
+	// Check if we have audio capabilities
+	int numCards = 0;
+	this->fmod->getNumDrivers(&numCards);
 
-	shutdown = false;
+	if (numCards == 0)
+	{
+		std::cerr << "Error: Couldn't detect any audio devices. Disabling audio..." << std::endl;
 
-	// Initialize random number generator.
-	srand(time(NULL));
-
-	rand();
-	rand();
-	rand();
+		this->fmod->setOutput(FMOD_OUTPUTTYPE_NOSOUND);
+	}
 }
 
 Game::~Game()
@@ -116,11 +128,6 @@ FMOD::System* Game::fmodSystemInstance()
 	return Game::fmod;
 }
 
-FMOD::Channel* Game::fmodChannelInstance()
-{
-	return Game::channel;
-}
-
 void Game::initGL()
 {
 	glDepthMask(false);
@@ -138,8 +145,6 @@ void Game::display()
 void Game::updateAudio()
 {
 	this->fmod->update();
-
-
 }
 
 void Game::mainLoop()
