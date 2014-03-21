@@ -29,6 +29,11 @@ void SoundEffect::play()
 	Game::fmodSystemInstance()->playSound(this->soundInstance, NULL, false, &this->channel);
 }
 
+void SoundEffect::stop()
+{
+	this->channel->stop();
+}
+
 bool SoundEffect::isPlaying()
 {
 	bool result = false;

@@ -24,6 +24,8 @@ namespace JoshoEngine
 
 		void play();
 
+		void stop();
+
 		bool isPlaying();
 	private:
 		FMOD::Sound* soundInstance;
