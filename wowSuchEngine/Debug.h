@@ -47,7 +47,13 @@ namespace JoshoEngine
 		bool isDebuggerAttached();
 		void sleepCurrentThread(unsigned int milliseconds);
 		const char* getGLVersion();
+
+		// Changes the existing window title.
+		// Input NONE to display FPS in std::cout
+		// Input NO OUTPUT to not change window title and not output to std::cout
 		double calculateFPS(std::string windowTitle, double timeInterval = 1.0);
+
+		// Uses the existing window title.
 		double calculateFPS(double timeInterval = 1.0);
 	private:
 		int foreground;

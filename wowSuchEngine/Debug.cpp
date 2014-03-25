@@ -147,7 +147,7 @@ double Debug::calculateFPS(std::string windowTitle, double timeInterval)
 {
 	// Static values which only get initialised the first time the function runs
 	static double startTime = glfwGetTime(); // Set the initial time to now
-	static double fps = 0.0;           // Set the initial FPS value to 0.0
+	static double fps = 0.0; // Set the initial FPS value to 0.0
 
 	// Set the initial frame count to -1.0 (it gets set to 0.0 on the next line). Because
 	// we don't have a start time we simply cannot get an accurate FPS value on our very
@@ -178,7 +178,7 @@ double Debug::calculateFPS(std::string windowTitle, double timeInterval)
 		fps = frameCount / duration;
 
 		// If the user specified a window title to append the FPS value to...
-		if (windowTitle != "NONE")
+		if (windowTitle != "NONE" && windowTitle != "NO OUTPUT")
 		{
 			// Convert the fps value into a string using an output stringstream
 			std::ostringstream stream;
@@ -191,6 +191,10 @@ double Debug::calculateFPS(std::string windowTitle, double timeInterval)
 			// Convert the new window title to a c_str and set it
 			const char* pszConstString = windowTitle.c_str();
 			glfwSetWindowTitle(Game::instance()->window->currentWindowContext(), pszConstString);
+		}
+		else if (windowTitle == "NO OUTPUT")
+		{
+			// lol
 		}
 		else // If the user didn't specify a window to append the FPS to then output the FPS to the console
 		{

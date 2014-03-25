@@ -29,49 +29,46 @@ namespace JoshoEngine
 		// Destructor.
 		virtual ~Game();
 
-		// Necessary Virtual Methods.
+		// Necessary Virtual Methods!
 
-		/*!
-		This method is called only once. At this point, the window has already
-		been constructed, and it is safe to perform drawing. This is where
-		content should be loaded and variables should be initialized if they
-		weren't initialized by the constructor.
-		@note This method must be implemented by a subclass.
+		/*
+			This method is called only once. At this point, the window has already
+			been constructed, and it is safe to perform drawing. This is where
+			content should be loaded and variables should be initialized if they
+			weren't initialized by the constructor.
+			Note: This method must be implemented by a subclass.
 		*/
 		virtual void initialize() = 0;
 
-		/*!
-		This method is called once per frame during the game's run loop. All
-		game logic such as movement and collision detection should go here.
-		@note This method must be implemented by a subclass.
-		@param deltaTime Elapsed time in seconds since update was called last.
+		/*
+			This method is called once per frame during the game's run loop. All
+			game logic such as movement and collision detection should go here.
+			Note: This method must be implemented by a subclass.
+			Parameter: deltaTime, Elapsed time in seconds since update was called last.
 		*/
 		virtual void update(double deltaTime) = 0;
 
-		/*!
-		This method is called at least once per frame (it may also be called
-		when the window needs to be redrawn for some reason). This is where
-		all drawing should be done (including sprite animation).
-		@note This method must be implemented by a subclass.
-		@param deltaTime Elapsed time in seconds since draw was called last.
+		/*
+			This method is called at least once per frame (it may also be called
+			when the window needs to be redrawn for some reason). This is where
+			all drawing should be done (including sprite animation).
+			Note: This method must be implemented by a subclass.
+			Parameter: deltaTime, Elapsed time in seconds since draw was called last.
 		*/
 		virtual void draw(double deltaTime) = 0;
 
 		// Base Public Methods.
 
-		/*! Method to be called from `main` to run the game.
-		@return Exit status code.
-		*/
+		// Method to be called from main to run the game.
+		// return the exit status code.
 		int run();
 
-		/*! Call this to terminate the game.
-		@param status Exit status code.
-		*/
+		// Call this to terminate the game.
+		// Parameter: status, The exit status to return.
 		void terminate(int status);
 
-		/*! Call this to switch to fullscreen-mode.
-		@note registers callbacks automatically after switching.
-		*/
+		// Call this to switch to fullscreen-mode.
+		// Note: registers callbacks automatically after switching.
 		void toggleFullscreen();
 
 		// Delegate Methods.

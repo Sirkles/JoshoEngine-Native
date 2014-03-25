@@ -100,7 +100,7 @@ void Circle::draw(bool hollow, Color renderColor) const
 	}
 }
 
-bool Circle::inside(Vector2 point) const
+bool Circle::isInside(Vector2 point) const
 {
 	return (((point.x - this->center.x) * (point.x - this->center.x)) + ((point.y - this->center.y) * (point.y - this->center.y)) < (this->radius * this->radius));
 }

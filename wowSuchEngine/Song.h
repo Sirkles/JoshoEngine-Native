@@ -17,7 +17,15 @@ namespace JoshoEngine
 
 		void stop();
 
+		// -1 is infinite
+		void setLoop(int loop);
+
+		// -1 is infinite
+		int getLoop();
+
 		bool isPlaying();
+
+		bool isPaused();
 	private:
 		FMOD::Sound* soundInstance;
 		FMOD::Channel* channel;

@@ -83,7 +83,7 @@ void Texture2D::draw(const JoshoEngine::Rectangle& frame, const JoshoEngine::Rec
 
 	// Bind texture only if not already bound
 	if(!isActive())
-	glBindTexture(GL_TEXTURE_2D, active = this->glTexture);
+		glBindTexture(GL_TEXTURE_2D, active = this->glTexture);
 
 	// Set vertices
 	glVertexPointer(2, GL_FLOAT, 0, v);

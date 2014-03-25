@@ -25,7 +25,7 @@ namespace JoshoEngine
 
 		void draw(bool hollow, Color renderColor) const;
 
-		bool inside(Vector2 point) const;
+		bool isInside(Vector2 point) const;
 	};
 }
 
