@@ -13,31 +13,8 @@ using namespace JoshoEngine;
 
 Circle::Circle()
 {
-	JoshoEngine::Rectangle boundary = Game::instance()->window->getBounds();
-
-	this->radius = rand() % 100 + 25;
-
-	int leftSide = boundary.left();
-	int rightSide = boundary.right();
-	int topSide = boundary.left();
-	int bottomSide = boundary.bottom();
-
-	float xVal = rand() % rightSide;
-	float yVal = rand() % bottomSide;
-
-	if (xVal < leftSide - this->radius)
-		xVal += (2 * this->radius);
-
-	if (xVal > rightSide - this->radius)
-		xVal -= (2 * this->radius);
-
-	if (yVal < topSide - this->radius)
-		yVal += (2 * this->radius);
-
-	if (yVal > bottomSide - this->radius)
-		yVal -= (2 * this->radius);
-
-	this->center = Vector2(xVal, yVal);
+	this->radius = 100;
+	this->center = Vector2(100, 100);
 }
 
 Circle::Circle(Vector2 position, float radius)
