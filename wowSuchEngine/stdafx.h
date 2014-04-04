@@ -31,6 +31,7 @@
 #include <chrono>
 #include <random>
 #include <sstream>
+#include <iomanip>
 
 // FMOD Audio Runtime
 #include <fmod.hpp>
