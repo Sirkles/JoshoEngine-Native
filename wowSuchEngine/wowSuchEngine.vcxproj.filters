@@ -16,9 +16,6 @@
     <Filter Include="Source Files\SOIL">
       <UniqueIdentifier>{f49770ed-a585-41b2-8047-391fcff7dc88}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\OGLFT">
-      <UniqueIdentifier>{93b417d1-3586-4b61-ad8b-362ae1a28b04}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -102,9 +99,6 @@
     <ClInclude Include="Song.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OGLFT\OGLFT.h">
-      <Filter>Source Files\OGLFT</Filter>
-    </ClInclude>
     <ClInclude Include="Font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -169,9 +163,6 @@
     </ClCompile>
     <ClCompile Include="Song.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OGLFT\OGLFT.cpp">
-      <Filter>Source Files\OGLFT</Filter>
     </ClCompile>
     <ClCompile Include="Font.cpp">
       <Filter>Source Files</Filter>

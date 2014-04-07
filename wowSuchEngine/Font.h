@@ -4,37 +4,35 @@
 #include "Vector2.h"
 #include "Color.h"
 
-#include "OGLFT/OGLFT.h"
+#include <ft2build.h>
+#include <freetype.h>
 
 namespace JoshoEngine
 {
 	class JOSHO_API Font
 	{
 	public:
-		enum Type : unsigned int
-		{
-			// Aliased (jagged).
-			Monochrome = 0,
-
-			// Anti-aliased (non-jagged).
-			Transulcent = 1,
-
-			// Outline
-			//Outline = 2,
-		};
-
-		Font(const char* file, float pointSize, Type renderType, unsigned int dpi = 100);
+		Font(const char* file, unsigned int size, unsigned int numGlyphs = 128);
 
 		~Font();
 
-		void setRotation(float rotation);
+		// Warning: Don't use this in your update or draw methods!
+		// This function runs an algorthim that runs in O(N^2) runtime complexity.
+		void setPointSize(unsigned int size);
 
-		void setColor(Color renderColor);
+		unsigned int getPointSize() const;
 
-		void draw(const char* text, Vector2 position) const;
+		void draw(std::string text, Vector2 position, float rotation, Color renderColor) const;
 	private:
-		// Use the higher object in the hierarchy which is Raster.
-		OGLFT::Raster* rasterFont;
+		// This the aforementioned algorthim. It essentially rebuilds the glyph array.
+		void makeDisplayList(char c);
+
+		FT_Library library;
+		FT_Face typeFace;
+		GLuint* glyphTextures;
+		unsigned int pointSize;
+		unsigned int numGlyphs;
+		GLuint listBase;
 	};
 }
 

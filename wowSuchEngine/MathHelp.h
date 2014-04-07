@@ -14,6 +14,7 @@ namespace JoshoEngine
 		static float toRadians(float degrees);
 
 		static bool isPowerOfTwo(int value);
+		static unsigned int nextPowerOfTwo(unsigned int value);
 	};
 }
 

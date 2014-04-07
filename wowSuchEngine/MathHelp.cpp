@@ -26,3 +26,13 @@ bool MathHelp::isPowerOfTwo(int value)
 {
 	return (value > 0) && ((value & (value - 1)) == 0);
 }
+
+unsigned int MathHelp::nextPowerOfTwo(unsigned int value)
+{
+	unsigned int rval = 1;
+
+	while (rval < value) 
+		rval <<= 1;
+
+	return rval;
+}

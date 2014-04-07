@@ -39,3 +39,10 @@
 // GLFW and GL
 #include <GLFW/glfw3.h>
 #include <gl/GL.h>
+
+// FreeType
+#include <ft2build.h>
+#include <freetype.h>
+#include <ftglyph.h>
+#include <ftoutln.h>
+#include <fttrigon.h>
