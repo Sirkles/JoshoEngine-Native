@@ -22,10 +22,23 @@ namespace JoshoEngine
 
 		unsigned int getPointSize() const;
 
-		void draw(std::string text, Vector2 position, float rotation, Color renderColor) const;
+		// XNA-style draw method.
+		void draw(std::string text, Vector2 position, float rotation, Color renderColor);
+
+		// C-style (printf) draw method.
+		void draw(Vector2 position, float rotation, Color renderColor, const char* fmt, ...);
 	private:
 		// This the aforementioned algorthim. It essentially rebuilds the glyph array.
 		void makeDisplayList(char c);
+
+		// Pushes to OpenGL the screen coordinate matrix so that the "world" cooridinate matrix mirrors the actual window one.
+		inline void pushScreenCoordinateMatrix();
+
+		// Pops the projection matrix without changing the current matrix mode.
+		inline void popProjectionMatrix();
+
+		// Here's a fancy-dancy algorithm that will split the lines with the traditional line breaks like '\r' and '\n'
+		std::vector<std::string> separateLines(const char* text);
 
 		FT_Library library;
 		FT_Face typeFace;

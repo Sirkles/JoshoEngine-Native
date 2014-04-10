@@ -34,7 +34,7 @@ namespace JoshoEngine
 
 		Debug();
 
-		void debugf(const char* fmt, ...);
+		static void debugf(const char* fmt, ...);
 		void setConsoleColor(int fg, int bg);
 		int getConsoleBackgroundColor();
 		int getConsoleForegroundColor();
@@ -45,7 +45,7 @@ namespace JoshoEngine
 		bool isRemoteDebuggerPresent();
 		bool isLocalDebuggerPresent();
 		bool isDebuggerAttached();
-		void sleepCurrentThread(unsigned int milliseconds);
+		static void sleepCurrentThread(unsigned int milliseconds);
 		const char* getGLVersion();
 
 		// Changes the existing window title.

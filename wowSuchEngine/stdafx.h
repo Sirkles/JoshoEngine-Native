@@ -32,13 +32,15 @@
 #include <random>
 #include <sstream>
 #include <iomanip>
+#include <unordered_map>
 
 // FMOD Audio Runtime
 #include <fmod.hpp>
 
-// GLFW and GL
+// GLFW, GL, and GLu
 #include <GLFW/glfw3.h>
 #include <gl/GL.h>
+#include <gl/GLU.h>
 
 // FreeType
 #include <ft2build.h>

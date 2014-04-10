@@ -52,6 +52,10 @@ Font::Font(const char* file, unsigned int size, unsigned int numGlyphs)
 
 Font::~Font()
 {
+	// Tell OpenGL to free the video memory allocated to the glyphs.
+	glDeleteLists(this->listBase, 128);
+	glDeleteTextures(128, this->glyphTextures);
+
 	// Delete the dynamic memory allocated to the glyph textures.
 	delete this->glyphTextures;
 }
@@ -74,13 +78,125 @@ unsigned int Font::getPointSize() const
 	return this->pointSize;
 }
 
-void Font::draw(std::string text, Vector2 position, float rotation, Color renderColor) const
+void Font::draw(std::string text, Vector2 position, float rotation, Color renderColor)
 {
+	// Make it the "normal" coordinate system. (0,0 being upper left)
+	this->pushScreenCoordinateMatrix();
+
+	// Apply the user-specified render color.
 	renderColor.apply();
 
-	// lol implement
+	GLuint font = this->listBase;
+	float h = this->pointSize / 0.63f;
 
+	// Take the text and split it up
+	std::vector<std::string> lines = this->separateLines(text.c_str());
+
+	// Prime OpenGL for rendering our text.
+	glPushAttrib(GL_LIST_BIT | GL_CURRENT_BIT | GL_ENABLE_BIT | GL_TRANSFORM_BIT);
+	glMatrixMode(GL_MODELVIEW);
+	glDisable(GL_LIGHTING);
+	glEnable(GL_TEXTURE_2D);
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glListBase(font);
+
+	float modelviewMatrix[16];
+	glGetFloatv(GL_MODELVIEW_MATRIX, modelviewMatrix);
+
+	// Drumroll please..... *drum roll*
+	// Draw the text!
+	for (int i = 0; i < lines.size(); i++)
+	{
+		// Reset the matrix so we can draw the text.
+		glPushMatrix();
+		glLoadIdentity();
+		glTranslatef(position.x, position.y - h * i, 0);
+		glMultMatrixf(modelviewMatrix);
+
+		glCallLists(lines[i].length(), GL_UNSIGNED_BYTE, lines[i].c_str());
+
+		// Go back to normal.
+		glPopMatrix();
+	}
+
+	// Reset to the default render color.
 	Color::White.apply();
+
+	// Make the projection matrix back to normal.
+	glPopAttrib();
+	this->popProjectionMatrix();
+}
+
+void Font::draw(Vector2 position, float rotation, Color renderColor, const char* fmt, ...)
+{
+	// Make it the "normal" coordinate system. (0,0 being upper left)
+	this->pushScreenCoordinateMatrix();
+
+	// Apply the user-specified render color.
+	renderColor.apply();
+
+	// The string with the arguments in it.
+	char* text;
+
+	// The arguments from the "..."
+	va_list ap;
+
+	// Grab the arguments like "%s", "%d", etc. and put it in the string.
+	if (fmt == NULL) 
+		*text = 0;
+	else
+	{
+		// Parse the arguments and pair them up with their repsective % variable.
+		va_start(ap, fmt);
+			vsprintf(text, fmt, ap);
+		va_end(ap);
+	}
+
+	GLuint font = this->listBase;
+	float h = this->pointSize / 0.63f;
+
+	// Take the text and split it up
+	std::vector<std::string> lines = this->separateLines(text);
+
+	// Get OpenGL ready to render the text.
+	glPushAttrib(GL_LIST_BIT | GL_CURRENT_BIT | GL_ENABLE_BIT | GL_TRANSFORM_BIT);
+	glMatrixMode(GL_MODELVIEW);
+	glDisable(GL_LIGHTING);
+	glEnable(GL_TEXTURE_2D);
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glListBase(font);
+
+	float modelviewMatrix[16];
+	glGetFloatv(GL_MODELVIEW_MATRIX, modelviewMatrix);
+
+	// Drumroll please..... *drum roll*
+	// Draw the text!
+	for (int i = 0; i < lines.size(); i++)
+	{
+		// Reset the matrix so we can draw the text.
+		glPushMatrix();
+		glLoadIdentity();
+		glTranslatef(position.x, position.y - h * i, 0);
+		glMultMatrixf(modelviewMatrix);
+
+		glCallLists(lines[i].length(), GL_UNSIGNED_BYTE, lines[i].c_str());
+
+		// Go back to normal.
+		glPopMatrix();
+	}
+
+	// Reset the color to white (normal render color).
+	Color::White.apply();
+
+	// Make the projection matrix back to normal.
+	glPopAttrib();
+	this->popProjectionMatrix();
 }
 
 void Font::makeDisplayList(char c)
@@ -160,4 +276,71 @@ void Font::makeDisplayList(char c)
 
 	// End the list.
 	glEndList();
+}
+
+inline void Font::pushScreenCoordinateMatrix()
+{
+	glPushAttrib(GL_TRANSFORM_BIT);
+
+	GLint viewport[4];
+	glGetIntegerv(GL_VIEWPORT, viewport);
+
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	gluOrtho2D(viewport[0], viewport[2], viewport[1], viewport[3]);
+
+	glPopAttrib();
+}
+
+inline void Font::popProjectionMatrix()
+{
+	glPushAttrib(GL_TRANSFORM_BIT);
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+	glPopAttrib();
+}
+
+std::vector<std::string> Font::separateLines(const char* text)
+{
+	// Our return variable.
+	std::vector<std::string> lines;
+
+	// Local variables.
+	const char* c;
+	const char* startLine = text;
+
+	// Go through our string of text.
+	for (c = text; *c; c++)
+	{
+		// If we run into a new line or carriage return char. Take the current line and push it to the vector.
+		if (*c == '\n' || *c == '\r')
+		{
+			std::string line;
+
+			for (const char* n = startLine; n < c; n++)
+			{
+				line.append(1, *n);
+			}
+
+			lines.push_back(line);
+
+			startLine = c + 1;
+		}
+	}
+
+	if (startLine)
+	{
+		std::string line;
+
+		for (const char *n = startLine; n < c; n++)
+		{
+			line.append(1, *n);
+		}
+
+		lines.push_back(line);
+	}
+
+	// Finally return the vector of strings.
+	return lines;
 }
