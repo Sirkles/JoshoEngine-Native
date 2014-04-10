@@ -73,7 +73,7 @@ bool IniFile::isSection(const char* line, const char* sectionName)
 	}
 	else
 	{
-		sectionName = false;
+		sectionName = NULL;
 		return false;
 	}
 }
