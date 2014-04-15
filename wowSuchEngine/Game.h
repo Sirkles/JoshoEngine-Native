@@ -29,6 +29,9 @@ namespace JoshoEngine
 		// Destructor.
 		virtual ~Game();
 
+		// See if the game is using an ini file.
+		bool useIniFile() const;
+
 		// Necessary Virtual Methods!
 
 		/*
@@ -73,11 +76,10 @@ namespace JoshoEngine
 
 		// Delegate Methods.
 
-		/*! Called whenever the window is moved.
-		@note This method is optional to implement.
-		@param x The x coordinate the window was moved to.
-		@param y The y coordinate the window was moved to.
-		*/
+		// Called whenever the window is moved.
+		// Note: This method is optional to implement.
+		// x The x coordinate the window was moved to.
+		// y The y coordinate the window was moved to.
 		virtual void windowMoved(int x, int y) {};
 
 		/*! Called whenever the window is resized.
@@ -193,6 +195,8 @@ namespace JoshoEngine
 		static Game* game;
 		static Debug* debug;
 		static FMOD::System* fmod;
+
+		bool iniFile;
 
 		int status;
 		bool shutdown;

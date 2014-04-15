@@ -2,28 +2,29 @@
 #define JOSHOENGINE_INI_FILE_H_
 
 #include "JoshoEngine.h"
-#include <unordered_map>
-#include <fstream>
+#include <map>
 
 namespace JoshoEngine
 {
 	class JOSHO_API IniFile
 	{
 	public:
-		IniFile(const char* file);
-		~IniFile();
+		IniFile(std::string file);
 
-		// value should be NULL.
-		bool getValue(const char* key, const char* value) const;
+		int parseError();
+
+		std::string getString(std::string section, std::string name, std::string defaulValue);
+		long getInteger(std::string section, std::string name, long defaultValue);
+		double getReal(std::string section, std::string name, double defaultValue);
+		bool getBoolean(std::string section, std::string name, bool defaultValue);
 	private:
-		const char* fileName;
-		std::ifstream iniFile;
-		std::unordered_map<const char*, const char*> valueDictionary;
+		std::string fileName;
+		int error;
 
-		bool isComment(const char* line);
-		
-		// sectionName will be assigned at function runtime.
-		bool isSection(const char* line, const char* sectionName);
+		std::map<std::string, std::string> values;
+
+		static std::string makeKey(std::string section, std::string name);
+		static int valueHandler(void* user, const char* section, const char* name, const char* value);
 	};
 }
 

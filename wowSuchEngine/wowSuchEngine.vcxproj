@@ -107,6 +107,7 @@ xcopy /y "C:\FreeType\lib\freetype253.dll" "$(OutDir)"</Command>
     <ClInclude Include="Game.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="IniFile.h" />
+    <ClInclude Include="inih\ini.h" />
     <ClInclude Include="JoshoEngine.h" />
     <ClInclude Include="MathHelp.h" />
     <ClInclude Include="Matrix.h" />
@@ -143,6 +144,7 @@ xcopy /y "C:\FreeType\lib\freetype253.dll" "$(OutDir)"</Command>
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="IniFile.cpp" />
+    <ClCompile Include="inih\ini.cpp" />
     <ClCompile Include="MathHelp.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Rectangle.cpp" />

@@ -1,79 +1,87 @@
 #include "stdafx.h"
 #include "IniFile.h"
 
+#include "inih/ini.h"
+
 using namespace JoshoEngine;
 
-IniFile::IniFile(const char* file)
+IniFile::IniFile(std::string file)
 {
 	this->fileName = file;
 
-	this->iniFile.open(this->fileName);
-
-	if (this->iniFile.fail())
-	{
-		std::string errorMessage = "Unable to open the configuration file: " + std::string(this->fileName) + "\nEnsure the file exists and has read permissions.";
-
-		throw new std::runtime_error(errorMessage);
-	}
-
-	this->valueDictionary = std::unordered_map<const char*, const char*>();
+	this->error = ini_parse(file.c_str(), IniFile::valueHandler, this);
 }
 
-IniFile::~IniFile()
+int IniFile::parseError()
 {
-	this->iniFile.close();
+	return this->error;
 }
 
-bool IniFile::getValue(const char* key, const char* value) const
+std::string IniFile::makeKey(std::string section, std::string name)
 {
-	try
-	{
-		value = this->valueDictionary.at(key);
+	std::string key = section + "." + name;
+
+	// Convert to lower case to make section/name lookups case-insensitive.
+	std::transform(key.begin(), key.end(), key.begin(), ::tolower);
+
+	return key;
+}
+
+std::string IniFile::getString(std::string section, std::string name, std::string defaultValue)
+{
+	std::string key = IniFile::makeKey(section, name);
+
+	return (this->values.count(key) ? this->values[key] : defaultValue);
+}
+
+long IniFile::getInteger(std::string section, std::string name, long defaultValue)
+{
+	std::string valueString = this->getString(section, name, "");
+
+	const char* value = valueString.c_str();
+	char* end;
+
+	long n = strtol(value, &end, 0);
+	
+	return (end > value ? n : defaultValue);
+}
+
+double IniFile::getReal(std::string section, std::string name, double defaultValue)
+{
+	std::string valueString = this->getString(section, name, "");
+
+	const char* value = valueString.c_str();
+	char* end;
+
+	double n = strtod(value, &end);
+
+	return (end > value ? n : defaultValue);
+}
+
+bool IniFile::getBoolean(std::string section, std::string name, bool defaultValue)
+{
+	std::string valueString = this->getString(section, name, "");
+
+	// Convert to lower case to make string comparisons case-insensitive
+	std::transform(valueString.begin(), valueString.end(), valueString.begin(), ::tolower);
+
+	if (valueString == "true" || valueString == "yes" || valueString == "on" || valueString == "1")
 		return true;
-	}
-	catch (std::out_of_range ex)
-	{
-		value = NULL;
+	else if (valueString == "false" || valueString == "no" || valueString == "off" || valueString == "0")
 		return false;
-	}
+	else
+		return defaultValue;
 }
 
-bool IniFile::isComment(const char* line)
+int IniFile::valueHandler(void* user, const char* section, const char* name, const char* value)
 {
-	char firstChar = *line;
-	char secondChar = *(line++);
+	IniFile* iniReader = (IniFile*)user;
+	std::string key = IniFile::makeKey(section, name);
 
-	if (firstChar == ';' || firstChar == '#' || (firstChar == '/' && secondChar == '/'))
-		return true;
-	else
-		return false;
-}
+	if (iniReader->values[key].size() > 0)
+		iniReader->values[key] += "\n";
 
-bool IniFile::isSection(const char* line, const char* sectionName)
-{
-	char firstChar = *line;
+	iniReader->values[key] += value;
 
-	std::string sectionContainer; // Easier to append. :P
-
-	if (firstChar == '[')
-	{
-		for (char* i = (char*)(line + 1); *i; i++)
-		{
-			if (*i == ']')
-			{
-				sectionName = sectionContainer.c_str();
-				return true;
-			}
-
-			sectionContainer += *i;
-		}
-
-		// If we didn't run into the ending bracket ']'
-		throw new std::runtime_error("Missing ending bracket for section declaration.");
-	}
-	else
-	{
-		sectionName = NULL;
-		return false;
-	}
+	return 1;
 }

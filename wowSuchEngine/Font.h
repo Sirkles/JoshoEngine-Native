@@ -24,9 +24,11 @@ namespace JoshoEngine
 
 		// XNA-style draw method.
 		void draw(std::string text, Vector2 position, float rotation, Color renderColor);
+		void draw(std::string text, Vector2 position, float rotation, Color renderColor, float& length);
 
 		// C-style (printf) draw method.
 		void draw(Vector2 position, float rotation, Color renderColor, const char* fmt, ...);
+		void draw(Vector2 position, float rotation, Color renderColor, float& length, const char* fmt, ...);
 	private:
 		// This the aforementioned algorthim. It essentially rebuilds the glyph array.
 		void makeDisplayList(char c);

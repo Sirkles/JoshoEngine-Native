@@ -78,6 +78,64 @@ unsigned int Font::getPointSize() const
 	return this->pointSize;
 }
 
+void Font::draw(std::string text, Vector2 position, float rotation, Color renderColor, float& length)
+{
+	// Make it the "normal" coordinate system. (0,0 being upper left)
+	this->pushScreenCoordinateMatrix();
+
+	// Apply the user-specified render color.
+	renderColor.apply();
+
+	GLuint font = this->listBase;
+	float h = this->pointSize / 0.63f;
+
+	// Take the text and split it up
+	std::vector<std::string> lines = this->separateLines(text.c_str());
+
+	// Prime OpenGL for rendering our text.
+	glPushAttrib(GL_LIST_BIT | GL_CURRENT_BIT | GL_ENABLE_BIT | GL_TRANSFORM_BIT);
+	glMatrixMode(GL_MODELVIEW);
+	glDisable(GL_LIGHTING);
+	glEnable(GL_TEXTURE_2D);
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glListBase(font);
+
+	float modelviewMatrix[16];
+	glGetFloatv(GL_MODELVIEW_MATRIX, modelviewMatrix);
+
+	// Drumroll please..... *drum roll*
+	// Draw the text!
+	for (int i = 0; i < lines.size(); i++)
+	{
+		// Reset the matrix so we can draw the text.
+		glPushMatrix();
+		glLoadIdentity();
+		glTranslatef(position.x, position.y - h * i, 0);
+		glMultMatrixf(modelviewMatrix);
+
+		glRasterPos2f(0, 0);
+
+		glCallLists(lines[i].length(), GL_UNSIGNED_BYTE, lines[i].c_str());
+
+		float rasterPosition[4];
+		glGetFloatv(GL_CURRENT_RASTER_POSITION, rasterPosition);
+		length = position.x - rasterPosition[0];
+
+		// Go back to normal.
+		glPopMatrix();
+	}
+
+	// Reset to the default render color.
+	Color::White.apply();
+
+	// Make the projection matrix back to normal.
+	glPopAttrib();
+	this->popProjectionMatrix();
+}
+
 void Font::draw(std::string text, Vector2 position, float rotation, Color renderColor)
 {
 	// Make it the "normal" coordinate system. (0,0 being upper left)
@@ -130,7 +188,7 @@ void Font::draw(std::string text, Vector2 position, float rotation, Color render
 	this->popProjectionMatrix();
 }
 
-void Font::draw(Vector2 position, float rotation, Color renderColor, const char* fmt, ...)
+void Font::draw(Vector2 position, float rotation, Color renderColor, float& length, const char* fmt, ...)
 {
 	// Make it the "normal" coordinate system. (0,0 being upper left)
 	this->pushScreenCoordinateMatrix();
@@ -139,7 +197,7 @@ void Font::draw(Vector2 position, float rotation, Color renderColor, const char*
 	renderColor.apply();
 
 	// The string with the arguments in it.
-	char* text;
+	char text[256] = { '\0' };
 
 	// The arguments from the "..."
 	va_list ap;
@@ -152,6 +210,81 @@ void Font::draw(Vector2 position, float rotation, Color renderColor, const char*
 		// Parse the arguments and pair them up with their repsective % variable.
 		va_start(ap, fmt);
 			vsprintf(text, fmt, ap);
+		va_end(ap);
+	}
+
+	GLuint font = this->listBase;
+	float h = this->pointSize / 0.63f;
+
+	// Take the text and split it up
+	std::vector<std::string> lines = this->separateLines(text);
+
+	// Get OpenGL ready to render the text.
+	glPushAttrib(GL_LIST_BIT | GL_CURRENT_BIT | GL_ENABLE_BIT | GL_TRANSFORM_BIT);
+	glMatrixMode(GL_MODELVIEW);
+	glDisable(GL_LIGHTING);
+	glEnable(GL_TEXTURE_2D);
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glListBase(font);
+
+	float modelviewMatrix[16];
+	glGetFloatv(GL_MODELVIEW_MATRIX, modelviewMatrix);
+
+	// Drumroll please..... *drum roll*
+	// Draw the text!
+	for (int i = 0; i < lines.size(); i++)
+	{
+		// Reset the matrix so we can draw the text.
+		glPushMatrix();
+		glLoadIdentity();
+		glTranslatef(position.x, position.y - h * i, 0);
+		glMultMatrixf(modelviewMatrix);
+
+		glRasterPos2f(0, 0);
+
+		glCallLists(lines[i].length(), GL_UNSIGNED_BYTE, lines[i].c_str());
+
+		float rasterPosition[4];
+		glGetFloatv(GL_CURRENT_RASTER_POSITION, rasterPosition);
+		length = position.x - rasterPosition[0];
+
+		// Go back to normal.
+		glPopMatrix();
+	}
+
+	// Reset the color to white (normal render color).
+	Color::White.apply();
+
+	// Make the projection matrix back to normal.
+	glPopAttrib();
+	this->popProjectionMatrix();
+}
+
+void Font::draw(Vector2 position, float rotation, Color renderColor, const char* fmt, ...)
+{
+	// Make it the "normal" coordinate system. (0,0 being upper left)
+	this->pushScreenCoordinateMatrix();
+
+	// Apply the user-specified render color.
+	renderColor.apply();
+
+	// The string with the arguments in it.
+	char text[256] = { '\0' };
+
+	// The arguments from the "..."
+	va_list ap;
+
+	// Grab the arguments like "%s", "%d", etc. and put it in the string.
+	if (fmt == NULL)
+		*text = 0;
+	else
+	{
+		// Parse the arguments and pair them up with their repsective % variable.
+		va_start(ap, fmt);
+		vsprintf(text, fmt, ap);
 		va_end(ap);
 	}
 
@@ -270,6 +403,9 @@ void Font::makeDisplayList(char c)
 	glEnd();
 	glPopMatrix();
 	glTranslatef(this->typeFace->glyph->advance.x >> 6, 0, 0);
+
+	// Increment the raster position, so we can keep track of the length.
+	glBitmap(0, 0, 0, 0, this->typeFace->glyph->advance.x >> 6, 0, NULL);
 
 	// Now we're done with the glyph. Let's tell it we're done.
 	FT_Done_Glyph(myGlyph);

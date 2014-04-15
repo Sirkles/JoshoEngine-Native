@@ -75,6 +75,9 @@ void Rectangle::draw(bool hollow, Color renderColor) const
 	}
 	else
 	{
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 		glBegin(GL_LINE_LOOP);
 
 		renderColor.apply();
@@ -92,6 +95,8 @@ void Rectangle::draw(bool hollow, Color renderColor) const
 		glVertex2f(bottomLeftCorner.x, bottomLeftCorner.y);
 
 		Color::White.apply();
+
+		glDisable(GL_BLEND);
 
 		glEnd();
 	}

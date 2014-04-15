@@ -175,8 +175,8 @@ int Game::run()
 	this->initialize();
 
 	// Reset the update and draw timers.
-	updateTimer.reset();
-	drawTimer.reset();
+	this->updateTimer.reset();
+	this->drawTimer.reset();
 
 	// Call the main loop.
 	this->mainLoop();

@@ -16,6 +16,9 @@
     <Filter Include="Source Files\SOIL">
       <UniqueIdentifier>{f49770ed-a585-41b2-8047-391fcff7dc88}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\inih">
+      <UniqueIdentifier>{ed45d204-fc9b-4bf4-85d0-42c1508d80a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -105,6 +108,9 @@
     <ClInclude Include="IniFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="inih\ini.h">
+      <Filter>Source Files\inih</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -172,6 +178,9 @@
     </ClCompile>
     <ClCompile Include="IniFile.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="inih\ini.cpp">
+      <Filter>Source Files\inih</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
