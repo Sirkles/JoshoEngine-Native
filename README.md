@@ -20,9 +20,12 @@ The code name for the engine is "wow such engine". :)
 * Add GLSL shader support.
 
 ## License
-**This software library is proprietary and contains confidential information!**
 
-You must contact me to arrange licensing details.
+You may use this software library for any free, non-commercial software at no-cost, you must mention in documentation that it uses this library and the others listed below.
+
+Any commercial software utilizing this library must contact me at josh@joshuakennedy.net to set up licensing.
+
+#
 
 This software library utilizes the cross-platform and low-level, FMOD Studio Audio API, it requires a separate license from Firelight Technologies. See [http://www.fmod.com/](http://www.fmod.com/) for details.
 
