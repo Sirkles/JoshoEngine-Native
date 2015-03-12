@@ -21,7 +21,30 @@ The code name for the engine is "wow such engine". :)
 
 ## License
 
-You may use this software library for any free, non-commercial software at no-cost, you must mention in documentation that it uses this library and the others listed below.
+This software library is licensed under the MIT license.
+
+    The MIT License (MIT)
+    
+    Copyright (c) 2014-2015 Josh Kennedy
+    Copyright (c) 2014 C0deH4cker
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
 
 Any commercial software utilizing this library must contact me at josh@joshuakennedy.net to set up licensing.
 
@@ -53,7 +76,7 @@ This software uses code from the [SimpleGameEngine](http://www.github.com/C0deH4
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
     
-The license for SimpleGameEngine must be included with every copy of the software that uses it, so every game/software that uses JoshoEngine must include it too. This does **NOT** mean that JoshoEngine can be distributed underneath this license!
+The license for SimpleGameEngine must be included with every copy of the software that uses it, so every game/software that uses JoshoEngine must include it too.
 
 This software uses a modified version of the inih library by Brush Software from https://code.google.com/p/inih/
 The inih library is distributed under the New BSD License:
