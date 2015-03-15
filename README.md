@@ -53,10 +53,10 @@ This software uses code from the [SimpleGameEngine](http://www.github.com/C0deH4
 
 #
 
-This software uses a modified version of the inih library by Brush Software from https://code.google.com/p/inih/
+This software uses a modified version of the inih library by Brush Software from https://github.com/benhoyt/inih
 The inih library is distributed under the New BSD License:
 
-    Copyright (c) 2009, Brush Technology
+    Copyright (c) 2009, Ben Hoyt
     All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
