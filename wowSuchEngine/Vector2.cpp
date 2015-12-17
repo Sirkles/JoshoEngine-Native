@@ -46,7 +46,7 @@ Vector2& Vector2::operator+=(const Vector2& other)
 Vector2& Vector2::operator+=(float amount)
 {
 	x += amount;
-	x += amount;
+	y += amount;
 	return *this;
 }
 
